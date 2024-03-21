@@ -78,6 +78,7 @@ code {
   
   &.closed {
     width: 0;
+    display: none;
   }
   transition: width 100ms ease-in-out 0s;
 }

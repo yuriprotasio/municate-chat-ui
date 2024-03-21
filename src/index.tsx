@@ -5,6 +5,11 @@ import App from './components/app';
 import reportWebVitals from './reportWebVitals';
 import { ReactQueryProvider } from './providers/ReactQueryProvider';
 import { socket } from './providers/socket'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Widget from './components/widget';
 
 socket.on('connect', () => {
   if(socket.connected) {
@@ -17,10 +22,21 @@ socket.on('connect', () => {
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+const router = createBrowserRouter([
+  {
+    path: "/widget",
+    element: <Widget></Widget>
+  },
+  {
+    path: "/chat",
+    element: <App></App>
+  }
+]);
 root.render(
   // <React.StrictMode>
     <ReactQueryProvider>
-      <App />
+      <RouterProvider router={router} />
+      {/* <App /> */}
     </ReactQueryProvider>
   // </React.StrictMode>
 );

@@ -10,18 +10,17 @@ import { last, get, set, cloneDeep } from 'lodash'
 import * as moment from 'moment'
 import Promise from 'bluebird'
 import 'moment/locale/pt-br'
-const companyId = '65ea7e1101ba4afaba2f4012'
-const Authorization = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiWXVyaSBQcm90w6FzaW8gSmVzdXMgZGEgU2lsdmEiLCJjb21wYW55SWRzIjpbXSwiZW1haWwiOiJ5dXJpcHJvdGFzaW9AaG90bWFpbC5jb20iLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MTA0NjA1MjR9.9PO0T-WP1W8rpvqOII9j2QBOp2zMVlz2o5W-JIaaj0g'
+// const Authorization = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWViMjVkMjFhODBlMjQ5Zjc1MzFmMGEiLCJuYW1lIjoiWXVyaSBQcm90w6FzaW8gSmVzdXMgZGEgU2lsdmEiLCJjb21wYW55SWRzIjpbXSwiZW1haWwiOiJ5dXJpcHJvdGFzaW9AaG90bWFpbC5jb20iLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MTA5NTI3ODZ9._KGkEbORPe2eiKRU2UgSC13y3wg4YEbDuamXwnKh_dU'
 
 // Será usado para integrar o chat
 const userId = 'teste'
 const userEmail = ''
-const appId = ''
 // ------------------------------
 let notSendedMessages = []
 let notSendedMessageId = 0
 
-export default function Chat ({ setChatOpened, chatSelected, municateOpened, setMunicateOpened }) {
+export default function Chat ({ setChatOpened, chatSelected, municateOpened, setMunicateOpened, company }) {
+  const Authorization = window?.chatConfig?.Authorization || localStorage.getItem('visitorToken')
   moment.locale('pt-br')
   const [chat, setChat] = useState(chatSelected || {})
   const chatRef = useRef(chat)
@@ -57,7 +56,7 @@ export default function Chat ({ setChatOpened, chatSelected, municateOpened, set
     socket.on('message', async (message) => {
       const response = await axios.post('http://192.168.100.158:3003/chat/get-messages', {
         _id: chatRef.current._id
-      })
+      }, { headers: { Authorization } })
       setChat(response?.data)
       chatRef.current = response?.data
     })
@@ -87,7 +86,7 @@ export default function Chat ({ setChatOpened, chatSelected, municateOpened, set
   async function doSomething () {
     const response = await axios.post('http://192.168.100.158:3003/chat/get-messages', {
       _id: chatRef.current._id
-    })
+    }, { headers: { Authorization }})
 
     const newMessagesByDay = response?.data?.messagesByDay
     await Promise.map(notSendedMessages, async (notSendedMessage) => {
@@ -123,9 +122,9 @@ export default function Chat ({ setChatOpened, chatSelected, municateOpened, set
   async function getMessages (_id) {
     const response = await axios.post('http://192.168.100.158:3003/chat/get-messages', {
       _id
-    })
+    }, { headers: { Authorization }})
 
-    set(response, 'data.messagesByDay[0].messages', [...notSendedMessages, ...get(response, 'data.messagesByDay[0].messages')])
+    set(response, 'data.messagesByDay[0].messages', [...notSendedMessages, ...get(response, 'data.messagesByDay[0].messages', [])])
     return response
   }
 
@@ -135,7 +134,7 @@ export default function Chat ({ setChatOpened, chatSelected, municateOpened, set
     if (!eTargetValid && !textInputValid) return setTextInput('')
     if ((e.keyCode == 13 && !e.shiftKey) || isClick) {
       if (!eTargetValid.trimStart() && !textInputValid.trimStart()) return setTextInput('')
-      const newMessage = { _id: get(chat, '_id'), companyId, message: textInput, from: 'customer' }
+      const newMessage = { _id: get(chat, '_id'), companyId: window.appResponse.company._id, message: textInput, from: 'customer' }
       setTextInput('')
       const messagesByDay = get(chat, 'messagesByDay', [{ messages: []}])
       set(messagesByDay, '[0].messages', [{ message: e.target.value, from: 'customer' }, ...get(messagesByDay, '[0].messages')])
@@ -210,8 +209,8 @@ export default function Chat ({ setChatOpened, chatSelected, municateOpened, set
             <ChevronLeftIcon className="w-7" />
           </button>
         </div>
-        <h1 className="m-auto">{chat?.employee?.name ? chat?.employee.name : 'COMPANY NAME'}</h1>
-        <button onClick={() => setMunicateOpened(!municateOpened)} className="mr-[10px] hover:bg-blue-200 p-1 rounded-md ms-2">
+        <h1 className="m-auto">{chat?.employee?.name || company.name}</h1>
+        <button onClick={() => window.top.postMessage({ type: 'open-chat' }, '*')} className="mr-[10px] hover:bg-blue-200 p-1 rounded-md ms-2">
           <XMarkIcon className="w-7"></XMarkIcon>
         </button>
       </div>
@@ -228,7 +227,9 @@ export default function Chat ({ setChatOpened, chatSelected, municateOpened, set
               {messageByDay.messages.map((item, index) => (
                 <div key={item._id}>
                   <div className={`${item.from === 'customer' ? 'flex flex-row-reverse mr-[5px]' : 'flex ml-[5px]'} my-[1px]`}>
-                    {item.from !== 'customer' && <div><BuildingLibraryIcon className="w-8"></BuildingLibraryIcon></div>}
+                    {item.from !== 'customer' && <div className="w-8">
+                      <img src={company.logo} className="h-full" />
+                    </div>}
                     <div className={`${item.from === 'customer' && item._id ?
                     'bg-blue-700 text-white' : item.from !== 'customer' && item._id ?
                     'bg-slate-200 text-black' : ''} ${!item._id && 'bg-blue-300 text-white'} pl-[10px] pr-[10px] p-[5px] w-fit rounded-md whitespace-pre-wrap tooltip  max-w-[290px] overflow-break-word`}>
@@ -246,7 +247,7 @@ export default function Chat ({ setChatOpened, chatSelected, municateOpened, set
       {!hasNetworkConnection && <div className="bg-red-500 text-center text-white">
         Sem conexão com a internet  
       </div>}
-      <div className={`border-t-[2px] border-gray-300 flex p-1 items-end`}>
+      {(chat?.isActive || chat?.newChat) && <div className={`border-t-[2px] border-gray-300 flex p-1 items-end`}>
         <textarea
         value={textInput}
         className={`${getTextAreaSize(textInput)} block w-full rounded-md border-0 shadow-none outline-none py-1.5 text-gray-900 placeholder:text-gray-400 sm:text-base sm:leading-6 pl-[10px] pr-[10px] h-[36px] resize-none w-[410px]`}
@@ -257,7 +258,7 @@ export default function Chat ({ setChatOpened, chatSelected, municateOpened, set
           {showSolid && <SolidPaperAirplaneIcon className="w-[100%] text-white cursor-pointer pl-1" ></SolidPaperAirplaneIcon>}
           {!showSolid && <PaperAirplaneIcon className="w-[100%] text-white pl-1"></PaperAirplaneIcon>}
         </button>
-      </div>
+      </div>}
     </div>
   )
 }

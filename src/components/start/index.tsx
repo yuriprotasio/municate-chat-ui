@@ -3,22 +3,27 @@ import { PaperAirplaneIcon } from '@heroicons/react/24/solid'
 import Chat from '../chat'
 import { BuildingLibraryIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
-export default function Start ({ chatOpened, setChatOpened, municateOpened, setMunicateOpened }) {
+export default function Start ({ chatOpened, setChatOpened, municateOpened, setMunicateOpened, company }) {
   function openChat () {
     setChatOpened(true)
   }
 
   return (
     <>
-      {chatOpened && <Chat setChatOpened={setChatOpened} municateOpened={municateOpened} setMunicateOpened={setMunicateOpened} />}
+      {chatOpened && <Chat setChatOpened={setChatOpened} municateOpened={municateOpened} setMunicateOpened={setMunicateOpened} company={company} />}
       {!chatOpened && <div className="m-[10px] py-2">
         <div className="flex">
           <div className="w-10/12">
-            <BuildingLibraryIcon className="w-10"></BuildingLibraryIcon><br></br>
+            <div className="w-10">
+              <img src={company.logo} className="h-full" />
+            </div><br></br>
+            {/* <BuildingLibraryIcon ></BuildingLibraryIcon><br></br> */}
             <p>Olá, como podemos ajudar?</p>
           </div>
           <div className="w-2/12 text-right">
-            <button onClick={() => setMunicateOpened(!municateOpened)} className="mr-[10px] hover:bg-blue-200 p-1 rounded-md ms-2">
+            <button onClick={() => {
+              window.top.postMessage({ type: 'open-chat' }, '*')
+              }} className="mr-[10px] hover:bg-blue-200 p-1 rounded-md ms-2">
               <XMarkIcon className="w-7"></XMarkIcon>
             </button>
           </div>
