@@ -12,11 +12,7 @@ module.exports = {
       },
     },
   },
-  safelist: [
-    'bg-red-700',
-    'text-3xl',
-    'lg:text-4xl',
-  ],
+  safelist: [],
   plugins: []
 
 };
