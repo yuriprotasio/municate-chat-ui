@@ -29,7 +29,46 @@ socket.on('connect', () => {
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-const router = createBrowserRouter([
+
+const dashboardPages = [
+  {
+    path: '/chat/inbox',
+    element: <Dashboard tabActive={'Atendimento'} />
+  },
+  {
+    path: '/kanban',
+    element: <Dashboard tabActive={'CRM'} />
+  },
+  {
+    path: '/marketing',
+    element: <Dashboard tabActive={'Marketing'} />
+  },
+  {
+    path: '/team',
+    element: <Dashboard tabActive={'Equipe'} />
+  },
+  {
+    path: '/call',
+    element: <Dashboard tabActive={'Telefone'} />
+  },
+  {
+    path: '/visitors',
+    element: <Dashboard tabActive={'Visitantes'} />
+  },
+  {
+    path: '/statistics',
+    element: <Dashboard tabActive={'Estatísticas'} />
+  },
+  {
+    path: '/billing',
+    element: <Dashboard tabActive={'Faturamento'} />
+  },
+  {
+    path: '/settings',
+    element: <Dashboard tabActive={'Configurações'} />
+  }
+]
+const normalPages = [
   {
     path: "/widget",
     element: <Widget></Widget>
@@ -60,17 +99,21 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard></Dashboard>
+    element: <Dashboard tabActive={'Atendimento'}></Dashboard>
   },
   {
     path: "*",
     element: <NotFound></NotFound>
   }
+]
+const router = createBrowserRouter([
+  ...normalPages,
+  ...dashboardPages
 ]);
 root.render(
   <GoogleOAuthProvider clientId="991508836423-0l19fj8es9tmriinplmk5ftuevt2opnq.apps.googleusercontent.com">
     <ReactQueryProvider>
-      <div className="bg-gray-50">
+      <div className="bg-gray-50 min-h-[100dvh]">
         <RouterProvider router={router} />
       </div>
     </ReactQueryProvider>

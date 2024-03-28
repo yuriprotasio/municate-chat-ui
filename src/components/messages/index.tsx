@@ -37,7 +37,6 @@ export default function Messages ({ chatOpened, setChatOpened, municateOpened, s
         <main className="overflow-auto flex flex-col sm:h-[468px] grow">
           {chats?.length ? chats.map(chat => (
             <div onClick={() => onChatClick(chat)} className="flex hover:bg-blue-100 cursor-pointer h-[70px] p-[10px] border-b-[1px] border-gray-300 last:border-b-[0px] bg-gray-100">
-              {/* <UserCircleIcon className="w-2/12"></UserCircleIcon> */}
               <div className="w-2/12">
                 <div className="rounded-full p-[8px] w-[50px] h-[50px] bg-white">
                   <img src={company.logo} className="h-full" />
