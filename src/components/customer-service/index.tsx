@@ -43,7 +43,7 @@ export default function CustomerService ({ company }: any) {
           <div className={`${!chatOpened ? 'w-full' : 'w-3/12'} overflow-auto`}>
             <h2 className="text-left text-xl font-bold ml-[15px] mt-[20px]">Atendimento</h2>
             <div className="flex border-b-[2px] border-gray-300 pb-4 py-4 z-10 bg-gray-50">
-              <span className="ml-[15px]">Conversas</span>
+              <span className="ml-[15px] bg-gray-300 rounded-lg py-[5px] px-[10px] cursor-pointer font-semibold hover:bg-gray-200">Conversas</span>
             </div>
             {get(data, 'data', []).map((conversation: any) => (
               <div key={conversation._id} onClick={() => onConversationClick(conversation)} className="flex flex-col border-gray-300 border-b-[1px] hover:bg-blue-100 border-gray-300 last:border-b-[0px]">

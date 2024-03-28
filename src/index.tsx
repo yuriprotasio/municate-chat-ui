@@ -106,9 +106,46 @@ const normalPages = [
     element: <NotFound></NotFound>
   }
 ]
+
+const subTabsPages = [
+  {
+    path: "/settings/profile",
+    element: <Dashboard tabActive={'Configurações'} subTabActive={'Meu Perfil'}></Dashboard>
+  },
+  {
+    path: "/settings/channels",
+    element: <Dashboard tabActive={'Configurações'} subTabActive={'Canais'}></Dashboard>
+  },
+  {
+    path: "/settings/team",
+    element: <Dashboard tabActive={'Configurações'} subTabActive={'Equipe'}></Dashboard>
+  },
+  {
+    path: "/settings/call",
+    element: <Dashboard tabActive={'Configurações'} subTabActive={'Créditos para Ligações'}></Dashboard>
+  },
+  {
+    path: "/settings/kanban",
+    element: <Dashboard tabActive={'Configurações'} subTabActive={'Ajustes CRM'}></Dashboard>
+  },
+  {
+    path: "/settings/extensions",
+    element: <Dashboard tabActive={'Configurações'} subTabActive={'Extensões'}></Dashboard>
+  },
+  {
+    path: "/settings/chat-routing",
+    element: <Dashboard tabActive={'Configurações'} subTabActive={'Roteamento de chats'}></Dashboard>
+  },
+  {
+    path: "/settings/restore-chat",
+    element: <Dashboard tabActive={'Configurações'} subTabActive={'Resgatar chat'}></Dashboard>
+  }
+]
+
 const router = createBrowserRouter([
   ...normalPages,
-  ...dashboardPages
+  ...dashboardPages,
+  ...subTabsPages
 ]);
 root.render(
   <GoogleOAuthProvider clientId="991508836423-0l19fj8es9tmriinplmk5ftuevt2opnq.apps.googleusercontent.com">
