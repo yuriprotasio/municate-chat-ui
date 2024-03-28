@@ -28,13 +28,13 @@ export default function ResetPassword () {
   const [passwordChanged, setPasswordChanged] = useState(false)
 
   async function validateToken () {
-    const response = await axios.get('http://localhost:3003/sessions/validate?token=' + token)
+    const response = await axios.get('http://192.168.100.158:3003/sessions/validate?token=' + token)
     setIsTokenValid(get(response, 'data.isValid'))
     return response
   }
 
   const onSubmit = async (data: any) => {
-    const response = await axios.post('http://localhost:3003/users/reset-password/', { password: get(data, 'password'), token })
+    const response = await axios.post('http://192.168.100.158:3003/users/reset-password/', { password: get(data, 'password'), token })
     if (get(response, 'data.success')) {
       setPasswordChanged(true)
 
