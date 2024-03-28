@@ -4,12 +4,11 @@ import CustomerService from "../components/customer-service";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { get, size } from "lodash";
+import Profile from "../components/settings/profile/profile";
 
 // @ts-nocheck
-export default function Dashboard( { tabActive }: any ) {
+export default function Dashboard( { tabActive, subTabActive }: any ) {
   const navigate = useNavigate()
-
-  const [subTabActive, setSubTabActive] = useState('')
 
   const { data: userInfo } = useQuery({
     queryKey: ['user'],
@@ -21,7 +20,7 @@ export default function Dashboard( { tabActive }: any ) {
     queryKey: ['company'],
     queryFn: () => getCompany(),
     refetchOnWindowFocus: false,
-    enabled: size(get(userInfo, 'data.companyIds')) > 0
+    enabled: size(get(userInfo, 'data.companies')) > 0
   });
 
   async function getUserInfo () {
@@ -31,7 +30,7 @@ export default function Dashboard( { tabActive }: any ) {
   }
 
   async function getCompany () {
-    return axios.get('http://192.168.100.158:3003/companies/info/' + get(userInfo, 'data.companyIds[0]'), {
+    return axios.get('http://192.168.100.158:3003/companies/info/' + get(userInfo, 'data.companies[0]._id'), {
       headers: { Authorization: localStorage.getItem('token') }
     })
   }
@@ -45,8 +44,9 @@ export default function Dashboard( { tabActive }: any ) {
     <div>
       <div className="flex flex-col w-52 z-50 top-0 bottom-0 fixed">
         <div className="px-[1.5rem] bg-white border gap-y-[1.25rem] flex flex-col grow">
-          <div className="h-[4rem] flex items-center">
+          <div className="h-[4rem] flex flex-col mt-[20px] text-center">
             <img className="h-[2rem]" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&amp;shade=600" alt="Your Company" />
+            <span className="text-lg font-semibold">{get(userInfo, 'data.companies[0].name', '')}</span>
           </div>
           <nav className="flex flex-col flex-1">
             <ul role="list" className="gap-y-[1.75rem] flex flex-col flex-1">
@@ -163,46 +163,60 @@ export default function Dashboard( { tabActive }: any ) {
                 <div className="text-gray-400 font-semibold text-left ml-[0.5rem]">Sistema</div>
                 <ul role="list" className="">
                   <li className="mt-[5px]">
-                    <a href="#" onClick={() => setSubTabActive('Canais')} className={`${subTabActive === 'Canais' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
-                      Canais
-                    </a>
+                    <Link to="/settings/channels">
+                      <a className={`${subTabActive === 'Canais' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
+                        Canais
+                      </a>
+                    </Link>
                   </li>
                   <li className="mt-[5px]">
-                    <a href="#" onClick={() => setSubTabActive('Equipe')} className={`${subTabActive === 'Equipe' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
-                      Equipe
-                    </a>
+                    <Link to="/settings/team">
+                      <a className={`${subTabActive === 'Equipe' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
+                        Equipe
+                      </a>
+                    </Link>
                   </li>
                   <li className="mt-[5px]">
-                    <a href="#" onClick={() => setSubTabActive('Créditos para Ligações')} className={`${subTabActive === 'Créditos para Ligações' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
-                      Créditos para Ligações
-                    </a>
+                    <Link to="/settings/call">
+                      <a className={`${subTabActive === 'Créditos para Ligações' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
+                        Créditos para Ligações
+                      </a>
+                    </Link>
                   </li>
                   <li className="mt-[5px]">
-                    <a href="#" onClick={() => setSubTabActive('Ajustes CRM')} className={`${subTabActive === 'Ajustes CRM' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
-                      Ajustes CRM
-                    </a>
+                    <Link to="/settings/kanban">
+                      <a className={`${subTabActive === 'Ajustes CRM' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
+                        Ajustes CRM
+                      </a>
+                    </Link>
                   </li>
                   <li className="mt-[5px]">
-                    <a href="#" onClick={() => setSubTabActive('Extensões')} className={`${subTabActive === 'Extensões' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
-                      Extensões
-                    </a>
+                    <Link to="/settings/extensions">
+                      <a className={`${subTabActive === 'Extensões' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
+                        Extensões
+                      </a>
+                    </Link>
                   </li>
                   <li className="mt-[5px]">
-                    <a href="#" onClick={() => setSubTabActive('Roteamento de chats')} className={`${subTabActive === 'Roteamento de chats' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
-                      Roteamento de chats
-                    </a>
+                    <Link to="/settings/chat-routing">
+                      <a className={`${subTabActive === 'Roteamento de chats' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
+                        Roteamento de chats
+                      </a>
+                    </Link>
                   </li>
                   <li className="mt-[5px]">
-                    <a href="#" onClick={() => setSubTabActive('Resgatar chat')} className={`${subTabActive === 'Resgatar chat' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
-                      Resgatar chat
-                    </a>
+                    <Link to="/settings/restore-chat">
+                      <a className={`${subTabActive === 'Resgatar chat' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
+                        Resgatar chat
+                      </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
               <li className="mt-auto">
                 <div className="text-gray-400 font-semibold text-left ml-[0.5rem]">Meu</div>
                 <ul role="list">
-                  <li><a onClick={() => setSubTabActive('Meu Perfil')} className={`${subTabActive === 'HeroIcon' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold cursor-pointer`}><span>Meu perfil</span></a></li>
+                  <li><Link to="/settings/profile"><a className={`${subTabActive === 'Meu Perfil' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold cursor-pointer`}><span>Meu perfil</span></a></Link></li>
                   <li><a onClick={() => logout()} className={`${subTabActive === 'Tailwind' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold cursor-pointer`}><span>Deslogar</span></a></li>
                 </ul>
               </li>
@@ -216,9 +230,9 @@ export default function Dashboard( { tabActive }: any ) {
           </nav>
         </div>
       </div>}
-      <main className="pl-[207px]">
+      <main className={`${subTabActive ? 'pl-[408px]' : 'pl-[207px]'}`}>
         {tabActive === 'Atendimento' && <CustomerService company={company?.data} />}
-        {tabActive === 'Configurações' && <h2>{subTabActive}</h2>}
+        {subTabActive === 'Meu Perfil' && <Profile />}
       </main>
     </div>
   )

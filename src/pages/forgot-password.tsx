@@ -21,7 +21,6 @@ export default function ForgotPassword () {
   const onSubmit = async (data: any) => {
     const response = await axios.post('http://192.168.100.158:3003/users/forgot-password', { email: data.email })
     if (get(response, 'data.success')) {
-      console.log('success')
       setRequestSuccess(true)
     } else {
       setRequestError(true)
