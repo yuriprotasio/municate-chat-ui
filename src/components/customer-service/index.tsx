@@ -3,7 +3,6 @@ import { get } from "lodash";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import moment from 'moment'
-import { ChevronRightIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import Details from "./details";
 import Chat from "./chat";

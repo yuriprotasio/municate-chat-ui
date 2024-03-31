@@ -28,7 +28,7 @@ export default function Signup () {
     setIsLoading(false)
     if (get(response, 'data.errorCode') === 'user-already-exists') return setUserExists(true)
     if (get(response, 'data.token')) {
-      navigate('/dahboard')
+      navigate('/dashboard')
     }
   }
 

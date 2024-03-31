@@ -6,7 +6,7 @@ import { useState } from "react";
 import { get, size } from "lodash";
 
 // @ts-nocheck
-export default function Profile ({}) {
+export default function Profile ({ company }: any) {
   const [isChangingEmail, setIsChangingEmail] = useState(false)
   const [isLoadingEmail, setIsLoadingEmail] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
@@ -82,6 +82,8 @@ export default function Profile ({}) {
     return true
   }
 
+  console.log('company', company)
+
   return (
     <div className="flex flex-col mx-[14px]">
       <div className="mt-[20px] border-gray-300 border-b-[1px]">
@@ -92,8 +94,8 @@ export default function Profile ({}) {
           <img className="w-[4rem] rounded-full bg-white h-[4rem]" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="" />
           <span className="ml-[10px]">
             <span className="text-xl font-semibold">{user.data.name} (você)</span><br></br>
-            <span className="font-semibold">Workspace:</span> {get(user, 'data.companies[0].name', '')}<br></br>
-            <span className="font-semibold">Position:</span> {get(user, 'data.companies[0].position', '')}
+            <span className="font-semibold">Workspace:</span> {get(company, 'name', '')}<br></br>
+            <span className="font-semibold">Position:</span> {get(company, 'operator.position', '')}
           </span>
         </div>
         <hr></hr>
@@ -120,7 +122,7 @@ export default function Profile ({}) {
           <input type="password" className="p-[6px] border-gray-400 border-[1px] rounded-md w-[260px]" required={true} { ...passwordRegister("repeatNewPassword", { validate: (password, form) => validatePasswordForm(form) }) }></input><br></br>
           {(passwordErrors.actualPassword || passwordErrors.actualPassword || passwordErrors.repeatNewPassword || invalidPasswordConfirmation) && <span className="text-red-600">Preencha os campos corretamente</span>}
           <div>
-              <button type="submit" className="bg-green-500 text-white py-[10px] px-[20px] mt-[10px] rounded-md hover:bg-green-400 font-semibold">Alterar Senha</button>
+              <button disabled={isLoadingPassword} type="submit" className="bg-green-500 text-white py-[10px] px-[20px] mt-[10px] rounded-md hover:bg-green-400 font-semibold">Alterar Senha</button>
               <button type="button" className="bg-gray-300 text-black py-[10px] px-[20px] mt-[10px] rounded-md hover:bg-gray-200 font-semibold ml-[20px]" onClick={() => { setIsChangingPassword(false); passwordReset() }}>Cancelar</button>
             </div>
         </form>}
