@@ -100,7 +100,7 @@ export default function Team ({ userInfo }: any) {
             {team?.data?.map((user: any) => (<tr className="mb-[10px] last:border-b-[0px] text-center" key={user._id}>
               <td className="">
                 <label htmlFor="one">
-                  <input id="one" type="checkbox" defaultChecked={user.isActive} onClick={(e) => onChangeStatus(e, user) }/>
+                  <input className="toggle" id="one" type="checkbox" defaultChecked={user.isActive} onClick={(e) => onChangeStatus(e, user) }/>
                 </label>
               </td>
               <td><img className="mx-auto w-[4rem] rounded-full bg-white h-[4rem]" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="" /></td>

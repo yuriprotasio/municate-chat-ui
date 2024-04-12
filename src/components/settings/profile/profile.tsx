@@ -102,10 +102,10 @@ export default function Profile ({ company }: any) {
         <form onSubmit={emailHandleSubmit(onSubmitEmail)} className="my-[20px]">
           <p className="font-semibold text-lg mb-[10px]">E-mail</p>
           Seu endereço de e-mail:<br></br>
-          <input type="text" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[260px]" required={true} {...emailRegister("email", { value: user.data.email, onChange: (e) => onChangeEmail(e), validate: (email) => validator.validate(email) })}></input><br></br>
+          <input type="text" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[260px] outline-2 outline-blue-500/50" required={true} {...emailRegister("email", { value: user.data.email, onChange: (e) => onChangeEmail(e), validate: (email) => validator.validate(email) })}></input><br></br>
           {isChangingEmail && <div>
               Confirme a senha para alterar o email:<br></br>
-              <input type="password" className="p-[6px] border-gray-400 border-[1px] rounded-md w-[260px]" required={true} { ...emailRegister("password", { validate: (password) => password.length > 7 })}></input>
+              <input type="password" className="p-[6px] border-gray-400 border-[1px] rounded-md w-[260px] outline-2 outline-blue-500/50" required={true} { ...emailRegister("password", { validate: (password) => password.length > 7 })}></input>
             </div>}
           {isChangingEmail && invalidEmailConfirmation && <span className="text-red-600">Senha inválida<br></br></span>}
           {isChangingEmail && emailErrors.email && <span className="text-red-600">O e-mail informado é inválido<br></br></span>}
@@ -115,20 +115,20 @@ export default function Profile ({ company }: any) {
         <hr></hr>
         {isChangingPassword && <form onSubmit={passwordHandleSubmit(onSubmitPassword)} className="my-[20px]">
           Senha Atual:<br></br>
-          <input type="password" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[260px]" required={true} { ...passwordRegister("actualPassword")}></input><br></br>
+          <input type="password" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[260px] outline-2 outline-blue-500/50" required={true} { ...passwordRegister("actualPassword")}></input><br></br>
           Nova Senha:<br></br>
-          <input type="password" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[260px]" required={true} { ...passwordRegister("newPassword")}></input><br></br>
+          <input type="password" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[260px] outline-2 outline-blue-500/50" required={true} { ...passwordRegister("newPassword")}></input><br></br>
           Confirme a Senha:<br></br>
-          <input type="password" className="p-[6px] border-gray-400 border-[1px] rounded-md w-[260px]" required={true} { ...passwordRegister("repeatNewPassword", { validate: (password, form) => validatePasswordForm(form) }) }></input><br></br>
+          <input type="password" className="p-[6px] border-gray-400 border-[1px] rounded-md w-[260px] outline-2 outline-blue-500/50" required={true} { ...passwordRegister("repeatNewPassword", { validate: (password, form) => validatePasswordForm(form) }) }></input><br></br>
           {(passwordErrors.actualPassword || passwordErrors.actualPassword || passwordErrors.repeatNewPassword || invalidPasswordConfirmation) && <span className="text-red-600">Preencha os campos corretamente</span>}
           <div>
-              <button disabled={isLoadingPassword} type="submit" className="bg-green-500 text-white py-[10px] px-[20px] mt-[10px] rounded-md hover:bg-green-400 font-semibold">Alterar Senha</button>
-              <button type="button" className="bg-gray-300 text-black py-[10px] px-[20px] mt-[10px] rounded-md hover:bg-gray-200 font-semibold ml-[20px]" onClick={() => { setIsChangingPassword(false); passwordReset() }}>Cancelar</button>
+              <button disabled={isLoadingPassword} type="submit" className="bg-green-500 text-white py-[10px] px-[20px] mt-[10px] rounded-md hover:bg-green-400 font-semibold outline-2 outline-blue-500/50">Alterar Senha</button>
+              <button type="button" className="bg-gray-300 text-black py-[10px] px-[20px] mt-[10px] rounded-md hover:bg-gray-200 font-semibold ml-[20px] outline-2 outline-blue-500/50" onClick={() => { setIsChangingPassword(false); passwordReset() }}>Cancelar</button>
             </div>
         </form>}
         {!isChangingPassword && <div className="mt-[20px]">
           <p className="font-semibold text-lg mb-[10px]">Senha</p>
-          <a onClick={() => setIsChangingPassword(true)} className="cursor-pointer text-blue-500 hover:text-blue-400">Alterar Senha</a>
+          <a onClick={() => setIsChangingPassword(true)} className="cursor-pointer text-blue-500 hover:text-blue-400 outline-2 outline-blue-500/50">Alterar Senha</a>
         </div>} <br></br>
       </div>}
     </div>

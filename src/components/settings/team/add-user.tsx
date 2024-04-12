@@ -59,21 +59,21 @@ export default function AddUser ({ handleClose, loggedUser, user }: any) {
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-[20px] flex flex-col mx-[20%]">
         <span>Nome</span>
-        <input type="text" className="p-[6px] border-gray-400 border-[1px] rounded-md w-[100%]" required={true} {...register("name", { validate: (name) => name.length > 1, value: user?.name })}></input>
+        <input type="text" className="p-[6px] border-gray-400 border-[1px] rounded-md w-[100%] outline-2 outline-blue-500/50" required={true} {...register("name", { validate: (name) => name.length > 1, value: user?.name })}></input>
         {errors.name && <span className="text-red-600">Insira um nome válido</span>}
         <span>E-mail</span>
-        <input type="text" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[100%]" required={true} {...register("email", { validate: (email) => validator.validate(email), value: user?.email })}></input>
+        <input type="text" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[100%] outline-2 outline-blue-500/50" required={true} {...register("email", { validate: (email) => validator.validate(email), value: user?.email })}></input>
         {errors.email && <span className="text-red-600">Insira um e-mail válido</span>}
         <span>Cargo (Opcional)</span>
-        <input type="text" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[100%]" {...register("position", { value: user?.position })}></input>
+        <input type="text" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[100%] outline-2 outline-blue-500/50" {...register("position", { value: user?.position })}></input>
         <span>Telefone (Opcional)</span>
-        <input type="text" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[100%]" {...register("phoneNumber", { value: user?.phoneNumber })}></input>
+        <input type="text" className="p-[6px] border-gray-400 border-[1px] rounded-md mb-[10px] w-[100%] outline-2 outline-blue-500/50" {...register("phoneNumber", { value: user?.phoneNumber })}></input>
         <p>O usuário precisa ter uma conta ativa em municate para poder acessar sua área de trabalho.</p>
         {somethingWentWrong && <span className="text-red-600">Ocorreu um erro, tente novamente mais tarde.</span>}
         <div className="mt-6 flex items-center gap-x-6">
           <button type="submit" className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold
           text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2
-          focus-visible:outline-offset-2 focus-visible:outline-green-600">
+          focus-visible:outline-offset-2 focus-visible:outline-green-600 outline-2 outline-blue-500/50">
             {user?._id ? 'Editar' : 'Cadastrar'} Usuário
           </button>
         </div>
