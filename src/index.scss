@@ -83,13 +83,20 @@ code {
   transition: width 100ms ease-in-out 0s;
 }
 
+.css-1n6sfyn-MenuList {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: column;
+}
+
 @layer base {
 
   label {
     @apply h-6 relative inline-block;
   }
 
-  [type="checkbox"] {
+  .toggle[type="checkbox"] {
     @apply w-11 h-0 cursor-pointer inline-block;
     @apply focus:outline-0 dark:focus:outline-0;
     @apply border-0 dark:border-0;

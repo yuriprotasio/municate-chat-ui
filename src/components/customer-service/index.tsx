@@ -6,9 +6,10 @@ import moment from 'moment'
 import { useState } from "react";
 import Details from "./details";
 import Chat from "./chat";
+import './index.scss'
 
 // @ts-nocheck
-export default function CustomerService ({ company }: any) {
+export default function CustomerService ({ company, userInfo }: any) {
   const [chatOpened, setChatOpened] = useState(false)
   const [selectedConversation, setSelectedConversation] = useState(false)
   const navigate = useNavigate()
@@ -73,7 +74,7 @@ export default function CustomerService ({ company }: any) {
             ))}
           </div>
           {chatOpened && <Chat selectedConversation={selectedConversation} company={company} />}
-          {chatOpened && <Details />}
+          {chatOpened && <Details conversation={selectedConversation} userInfo={userInfo} />}
         </div>
       </div>
     </div>

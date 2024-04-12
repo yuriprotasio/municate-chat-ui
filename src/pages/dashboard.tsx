@@ -6,6 +6,7 @@ import axios from "axios";
 import { get, size } from "lodash";
 import Profile from "../components/settings/profile/profile";
 import Team from "../components/settings/team/team";
+import Kanban from "../components/kanban";
 
 // @ts-nocheck
 export default function Dashboard( { tabActive, subTabActive }: any ) {
@@ -63,7 +64,7 @@ export default function Dashboard( { tabActive, subTabActive }: any ) {
                       </a>
                     </Link>
                   </li>
-                  {/* <li className="mt-[5px]">
+                  <li className="mt-[5px]">
                     <Link to="/kanban">
                       <a className={`${tabActive === 'CRM' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] rounded-lg hover:bg-gray-100 font-semibold`}>
                         <svg data-slot="icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className={`${tabActive === 'CRM' ? 'text-indigo-500' : 'text-gray-500'} w-[1.5rem]`}>
@@ -73,7 +74,7 @@ export default function Dashboard( { tabActive, subTabActive }: any ) {
                       </a>
                     </Link>
                   </li>
-                  <li className="mt-[5px]">
+                  {/* <li className="mt-[5px]">
                     <Link to="/marketing">
                       <a className={`${tabActive === 'Marketing' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] rounded-lg hover:bg-gray-100 font-semibold`}>
                         <svg data-slot="icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className={`${tabActive === 'Marketing' ? 'text-indigo-500' : 'text-gray-500'} w-[1.5rem]`}>
@@ -183,7 +184,7 @@ export default function Dashboard( { tabActive, subTabActive }: any ) {
                         Créditos para Ligações
                       </a>
                     </Link>
-                  </li>
+                  </li> */}
                   <li className="mt-[5px]">
                     <Link to="/settings/kanban">
                       <a className={`${subTabActive === 'Ajustes CRM' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
@@ -191,7 +192,7 @@ export default function Dashboard( { tabActive, subTabActive }: any ) {
                       </a>
                     </Link>
                   </li>
-                  <li className="mt-[5px]">
+                  {/*<li className="mt-[5px]">
                     <Link to="/settings/extensions">
                       <a className={`${subTabActive === 'Extensões' && 'text-indigo-500 bg-gray-100'} text-gray-700 flex p-[0.5rem] gap-x-[0.75rem] hover:bg-gray-100 font-semibold`}>
                         Extensões
@@ -232,7 +233,8 @@ export default function Dashboard( { tabActive, subTabActive }: any ) {
         </div>
       </div>}
       <main className={`${subTabActive ? 'pl-[408px]' : 'pl-[207px]'}`}>
-        {tabActive === 'Atendimento' && <CustomerService company={company?.data} />}
+        {tabActive === 'Atendimento' && <CustomerService company={company?.data} userInfo={userInfo?.data} />}
+        {tabActive === 'CRM' && <Kanban />}
         {subTabActive === 'Meu Perfil' && <Profile company={company?.data} />}
         {subTabActive === 'Equipe' && <Team userInfo={userInfo?.data} company={company?.data} />}
       </main>
